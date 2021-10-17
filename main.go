@@ -21,7 +21,7 @@ func main() {
 		// fmt.Println(message.Message)
 
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
-			client.Say(message.Channel, "PepeA 🚨 ALERT?")
+			client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
 		}
 	})
 
