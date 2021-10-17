@@ -20,7 +20,7 @@ func main() {
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		fmt.Println(message.Message)
 
-		if message.User.DisplayName == "AuroR6S" && message.Message == "pajaS 🚨 ALERT" {
+		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
 			client.Say(message.Channel, "PepeA 🚨 ALERT?")
 		}
 	})
@@ -29,7 +29,7 @@ func main() {
 		fmt.Println("Connected!")
 	})
 
-	client.Join("auror6s")
+	client.Join("pajlada")
 
 	err = client.Connect()
 	if err != nil {
