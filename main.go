@@ -18,7 +18,7 @@ func main() {
 	client := twitch.NewClient("oura_bot", os.Getenv("OAUTH"))
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
-		fmt.Println(message.Message)
+		// fmt.Println(message.Message)
 
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
 			client.Say(message.Channel, "PepeA 🚨 ALERT?")
