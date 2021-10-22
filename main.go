@@ -23,6 +23,10 @@ func main() {
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
 			client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
 		}
+
+		if message.User.DisplayName == "slchbot" && message.Message == "PepeA pajbot" {
+			client.Say(message.Channel, "/me GachiPls [emote] 🚨")
+		}
 	})
 
 	client.OnConnect(func() {
