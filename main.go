@@ -41,12 +41,12 @@ func main() {
 			}
 
 			nextPajas := lastPajas + (2 * 60 * 60)
-			client.Say(message.Channel, fmt.Sprintf("%s, pajaS 🚨 in %s", message.User.DisplayName, time.Until(time.Unix(int64(nextPajas), 0)).Round(time.Second)))
+			client.Say(message.Channel, fmt.Sprintf("%s, PAJAS 🚨 in %s", message.User.DisplayName, time.Until(time.Unix(int64(nextPajas), 0)).Round(time.Second)))
 
 		}
 
 		if message.Message == "PepeA ping?" && message.User.DisplayName == "AuroR6S" {
-			client.Say(message.Channel, "pajaS Pong!")
+			client.Say(message.Channel, "PAJAS Pong!")
 		}
 
 		if message.User.DisplayName == "slchbot" && message.Message == "PepeA pajbot" {
