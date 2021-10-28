@@ -3,14 +3,17 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load(".env")
+	lastPajas := 0
+	cooldowns := make(map[string]int)
 
+	err := godotenv.Load(".env")
 	if err != nil {
 		panic("Error loading .env file")
 	}
@@ -22,6 +25,28 @@ func main() {
 
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
 			client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
+			lastPajas = int(message.Time.Unix())
+		}
+
+		if (message.Message == "pajaS ❓" || message.Message == "pajaS ?") && cooldowns[message.User.DisplayName] == 0 {
+			cooldowns[message.User.DisplayName] = 1
+			go func() {
+				time.Sleep(5 * time.Second)
+				cooldowns[message.User.DisplayName] = 0
+			}()
+
+			if lastPajas == 0 {
+				client.Say(message.Channel, "I haven't been up for the pajaS 🚨 yet")
+				return
+			}
+
+			nextPajas := lastPajas + (2 * 60 * 60)
+			client.Say(message.Channel, fmt.Sprintf("%s, pajaS 🚨 in %s", message.User.DisplayName, time.Until(time.Unix(int64(nextPajas), 0)).Round(time.Second)))
+
+		}
+
+		if message.Message == "PepeA ping?" && message.User.DisplayName == "AuroR6S" {
+			client.Say(message.Channel, "pajaS Pong!")
 		}
 
 		if message.User.DisplayName == "slchbot" && message.Message == "PepeA pajbot" {
