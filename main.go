@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/gempir/go-twitch-irc/v2"
@@ -12,6 +13,7 @@ import (
 func main() {
 	lastPajas := 0
 	cooldowns := make(map[string]int)
+	recentMessages := make([]string, 2)
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -22,10 +24,25 @@ func main() {
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		// fmt.Println(message.Message)
+		recentMessages = append(recentMessages, message.Message)
 
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
-			client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
-			lastPajas = int(message.Time.Unix())
+			shuffler := false
+			for _, msg := range recentMessages {
+				matched, _ := regexp.MatchString("^!shuffle\\s((/me|pajaS|🚨|ALERT)\\s*){3,}", msg)
+
+				if matched {
+					shuffler = true
+				}
+			}
+
+			if shuffler {
+				client.Say(message.Channel, "pajaCMON shufflers")
+			} else {
+				client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
+				lastPajas = int(message.Time.Unix())
+			}
+
 		}
 
 		if (message.Message == "pajaS ❓" || message.Message == "pajaS ?") && cooldowns[message.User.DisplayName] == 0 {
