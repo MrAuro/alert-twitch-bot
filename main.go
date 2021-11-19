@@ -13,7 +13,6 @@ import (
 func main() {
 	lastPajas := 0
 	cooldowns := make(map[string]int)
-	recentMessages := make([]string, 2)
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -23,26 +22,15 @@ func main() {
 	client := twitch.NewClient("oura_bot", os.Getenv("OAUTH"))
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
-		// fmt.Println(message.Message)
-		recentMessages = append(recentMessages, message.Message)
-
 		if message.User.DisplayName == "pajbot" && message.Message == "pajaS 🚨 ALERT" {
-			shuffler := false
-			for _, msg := range recentMessages {
-				matched, _ := regexp.MatchString("^!shuffle\\s((/me|pajaS|🚨|ALERT)\\s*){3,}", msg)
+			client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
+			lastPajas = int(message.Time.Unix())
+		}
 
-				if matched {
-					shuffler = true
-				}
-			}
+		match, _ := regexp.MatchString("^!shuffle\\s((/me|pajaS|🚨|ALERT)\\s*){3,}", message.Message)
 
-			if shuffler {
-				client.Say(message.Channel, "pajaCMON shufflers")
-			} else {
-				client.Say(message.Channel, "/me PepeA 🚨 ALERT?")
-				lastPajas = int(message.Time.Unix())
-			}
-
+		if match {
+			client.Say(message.Channel, "pajaCMON shufflers")
 		}
 
 		if (message.Message == "pajaS ❓" || message.Message == "pajaS ?") && cooldowns[message.User.DisplayName] == 0 {
