@@ -27,7 +27,7 @@ func main() {
 			lastPajas = int(message.Time.Unix())
 		}
 
-		match, _ := regexp.MatchString("^!shuffle\s((/me|pajaS|🚨|ALERT)\s*){3,}", message.Message)
+		match, _ := regexp.MatchString("^!shuffle ((/me|pajaS|🚨|ALERT) *){3,}", message.Message)
 
 		if match {
 			client.Say(message.Channel, "pajaCMON shufflers")
